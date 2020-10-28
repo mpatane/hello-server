@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/julienschmidt/httprouter"
 	"log"
 	"net"
 	"net/http"
@@ -11,6 +10,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 var healthCheckResponse = []byte(`{"status":"ready"}`)
@@ -41,11 +42,20 @@ func getRemoteIPHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Par
 	fmt.Fprintf(w, "Forwarded for IP: %s\n", forwardIP)
 }
 
+// helloHandler responds with a "Hello World" message
+func helloHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	log.Printf("Serving requests: %s", r.URL.Path)
+	hostname, _ := os.Hostname()
+	fmt.Fprintf(w, "Hello World!\n")
+	fmt.Fprintf(w, "Hostname is: %s\n", hostname)
+}
+
 func main() {
 
 	// create a httprouter
 	router := httprouter.New()
 
+	router.GET("/", helloHandler)
 	router.GET("/getip", getRemoteIPHandler)
 	router.GET("/health", healthCheckHandler)
 
