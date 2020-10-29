@@ -14,6 +14,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+const version = "1.0.0"
+
 var healthCheckResponse = []byte(`{"status":"ready"}`)
 
 // healthCheckHandler is for application heartbeat
@@ -48,6 +50,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	hostname, _ := os.Hostname()
 	fmt.Fprintf(w, "Hello World!\n")
 	fmt.Fprintf(w, "Hostname is: %s\n", hostname)
+	fmt.Fprintf(w, "Version is: %s\n", version)
 }
 
 func main() {
