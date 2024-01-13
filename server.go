@@ -14,7 +14,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-const version = "1.0.0"
+const version = "2.0.0"
 
 var healthCheckResponse = []byte(`{"status":"ready"}`)
 
